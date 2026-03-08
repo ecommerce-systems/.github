@@ -22,7 +22,6 @@
 
         * { 
             box-sizing: border-box; 
-            cursor: url('Pikachu.ani'), auto;
         }
 
         body {
@@ -460,12 +459,37 @@
             transform: translateY(0);
         }
         .character-img {
-            width: 80px;
-            height: 80px;
-            background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif') no-repeat center;
-            background-size: contain;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            width: 70px;
+            height: 70px;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
             animation: float 3s ease-in-out infinite;
+            position: relative;
+            pointer-events: auto;
+        }
+        .character-img::before {
+            content: 'SYS';
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        .character-img::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #2563eb;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.4); opacity: 0; }
         }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -482,7 +506,7 @@
 
     <!-- Side Guide -->
     <div class="side-guide">
-        <div class="speech-bubble" id="pika-bubble">백엔드 아키텍처의 정수를 보여드릴게요!</div>
+        <div class="speech-bubble" id="guide-bubble">시스템 아키텍처 가이드를 시작합니다.</div>
         <div class="character-img"></div>
     </div>
 
@@ -944,21 +968,21 @@
             }
         });
 
-        // Pika Guide Logic
-        const pikaBubble = document.getElementById('pika-bubble');
-        const pikaComments = {
-            'section-hero': '1,300만 건의 H&M 데이터를 정복한 대규모 시스템이에요! 성능 최적화에 엔지니어링의 모든 것을 쏟아부었답니다.',
-            'section-achievement': '단순 수치가 아니에요! CQRS로 검색은 8배, Redis로 응답은 35배나 빨라졌죠. 수치로 증명된 효율성을 확인해보세요!',
-            'section-tech': 'Java 17부터 데이터 분석용 Python까지! 서비스 안정성과 정밀한 분석을 모두 잡기 위해 엄선된 기술 스택이에요.',
-            'section-arch': '클라이언트부터 DB, 분석 엔진까지! Docker Swarm으로 묶인 견고한 다계층 아키텍처가 트래픽을 효율적으로 분산해요.',
-            'section-erd': 'MSA 전환을 고려해 도메인을 엄격히 나눴어요. 특히 검색 전용 역정규화 테이블은 성능과 무결성을 동시에 잡은 비결이죠!',
-            'section-challenges': '가장 치열하게 고민한 부분이에요! JOIN의 병목을 CQRS로 뚫고, 마르코프 체인으로 추천 정밀도를 10배나 높였답니다.',
-            'section-ops': '무중단 배포와 실시간 관제는 기본! 어떤 트래픽 급증에도 서비스가 멈추지 않도록 견고한 인프라를 구축했어요.',
-            'section-vision': '여기서 끝이 아니에요! 앞으로 MSA로의 완전한 전환과 LLM 연동을 통해 시스템을 더 진화시킬 계획이랍니다.'
+        // System Guide Logic
+        const guideBubble = document.getElementById('guide-bubble');
+        const guideComments = {
+            'section-hero': '대규모 데이터 처리를 위한 고성능 백엔드 설계의 핵심 가치를 요약했습니다.',
+            'section-achievement': '정량적 지표를 통해 증명된 시스템 성능 최적화 성과를 확인하실 수 있습니다.',
+            'section-tech': '안정성과 확장성을 최우선으로 고려하여 선별한 기술 스택입니다.',
+            'section-arch': '트래픽 분산과 데이터 무결성을 보장하는 다계층 시스템 아키텍처입니다.',
+            'section-erd': '도메인 격리와 조회 성능의 균형을 맞춘 전략적 데이터 모델링입니다.',
+            'section-challenges': '기술적 병목 구간을 해결하기 위한 심도 있는 문제 해결 과정을 담았습니다.',
+            'section-ops': '중단 없는 서비스 운영과 신뢰성을 위한 자동화된 인프라 환경입니다.',
+            'section-vision': '기술적 부채 해결과 미래 지향적 아키텍처로의 진화 방향을 제시합니다.'
         };
 
         const observerOptions = {
-            rootMargin: '-20% 0px -70% 0px', // 화면 상단 20% 지점에 도달했을 때 트리거
+            rootMargin: '-20% 0px -70% 0px',
             threshold: 0
         };
 
@@ -966,12 +990,11 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.id;
-                    if (pikaComments[id] && pikaBubble.innerText !== pikaComments[id]) {
-                        // 애니메이션 효과와 함께 텍스트 변경
-                        pikaBubble.classList.remove('active');
+                    if (guideComments[id] && guideBubble.innerText !== guideComments[id]) {
+                        guideBubble.classList.remove('active');
                         setTimeout(() => {
-                            pikaBubble.innerText = pikaComments[id];
-                            pikaBubble.classList.add('active');
+                            guideBubble.innerText = guideComments[id];
+                            guideBubble.classList.add('active');
                         }, 100);
                     }
                 }
@@ -984,7 +1007,7 @@
         });
 
         // Initial trigger
-        setTimeout(() => pikaBubble.classList.add('active'), 500);
+        setTimeout(() => guideBubble.classList.add('active'), 500);
     </script>
 </body>
 </html>
