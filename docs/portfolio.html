@@ -223,7 +223,127 @@
         .result-table td { padding: 18px; border-top: 1px solid var(--border); }
         .result-table .highlight { color: var(--primary); font-weight: 800; }
 
-        .erd-image { max-width: 100%; border-radius: 16px; border: 1px solid var(--border); background: white; padding: 15px; }
+        .erd-image { 
+            max-width: 100%; 
+            border-radius: 16px; 
+            border: 1px solid var(--border); 
+            background: white; 
+            padding: 15px; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            position: relative;
+            z-index: 5;
+            display: block;
+        }
+        .erd-image:hover { transform: scale(1.01); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .node-icons img { cursor: pointer; transition: transform 0.2s; position: relative; z-index: 5; }
+        .node-icons img:hover { transform: scale(1.2); }
+        .erd-instruction { cursor: pointer; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            cursor: zoom-out;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            cursor: default;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: 300;
+            cursor: pointer;
+            z-index: 2100;
+            line-height: 1;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .close-modal:hover {
+            color: #fff;
+            background: #222;
+            transform: rotate(90deg) scale(1.1);
+            border-color: #fff;
+        }
+
+        /* Hover Effects for Tags */
+        .chip, .badge, .arch-node, .achievement-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+        }
+        .chip:hover, .badge:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: default; }
+        .arch-node:hover { transform: scale(1.05); z-index: 10; }
+
+        .back-nav { margin-bottom: 30px; }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .btn-back:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateX(-4px);
+        }
+
+        .erd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 15px;
+        }
+        .erd-instruction {
+            font-size: 0.85em;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-3px);}
+            60% {transform: translateY(-2px);}
+        }
 
         @media (max-width: 768px) {
             h1 { font-size: 2.2em; }
@@ -236,12 +356,13 @@
 </head>
 <body>
     <div class="container">
+        
         <header>
             <h1>Personalized E-commerce System</h1>
             <div class="project-meta">
                 <div class="meta-item"><strong>URL</strong> <a href="https://www.ecommerce.p-e.kr/" target="_blank">ecommerce.p-e.kr</a></div>
                 <div class="meta-item"><strong>GitHub</strong> <a href="https://github.com/orgs/ecommerce-systems/" target="_blank">View Organization</a></div>
-                <div class="meta-item"><strong>Period</strong> 2025.11 - 2026.01</div>
+                <div class="meta-item"><strong>Period</strong> 2025.11 - 2026.03</div>
             </div>
             <p class="project-description">
                 1,300만 건의 **H&M Kaggle Dataset**을 기반으로 구축된 대규모 트래픽 지향 이커머스 시스템입니다. 
@@ -249,7 +370,7 @@
             </p>
         </header>
 
-        <h2>핵심 성과 (Key Results)</h2>
+        <h2>핵심 성과</h2>
         <div class="achievement-grid">
             <div class="achievement-card">
                 <span class="badge">Performance</span>
@@ -278,24 +399,24 @@
             </div>
         </div>
 
-        <h2>Technical Tech Stack</h2>
+        <h2>기술</h2>
         <div class="card">
             <div class="skill-category">
                 <div class="category-label">Frontend</div>
                 <div class="skill-chips">
-                    <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">Zustand</span>
+                    <span class="chip">React</span><span class="chip">JavaScript</span><span class="chip">Vite</span><span class="chip">Cache Busting</span>
                 </div>
             </div>
             <div class="skill-category">
                 <div class="category-label">Backend Core</div>
                 <div class="skill-chips">
-                    <span class="chip">Java 17</span><span class="chip">Spring Boot 3.x</span><span class="chip">Spring Security</span><span class="chip">JPA (Hibernate)</span><span class="chip">JUnit 5 (TDD)</span>
+                    <span class="chip">Java 17</span><span class="chip">Spring Boot 3.x</span><span class="chip">Spring Security</span><span class="chip">JPA</span><span class="chip">JUnit 5 (TDD)</span>
                 </div>
             </div>
             <div class="skill-category">
                 <div class="category-label">Data Layer</div>
                 <div class="skill-chips">
-                    <span class="chip">PostgreSQL</span><span class="chip">Redis Cluster</span><span class="chip">CQRS Pattern</span><span class="chip">Denormalization</span>
+                    <span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">CQRS Pattern</span><span class="chip">Denormalization</span>
                 </div>
             </div>
             <div class="skill-category">
@@ -312,7 +433,7 @@
             </div>
         </div>
 
-        <h2>Overall System Architecture</h2>
+        <h2>Architecture</h2>
         <div class="arch-section">
             <div class="arch-diagram">
                 
@@ -361,9 +482,9 @@
                                 <div class="node-text">PostgreSQL</div>
                             </div>
                             <div class="arch-node db">
-                                <div class="arch-label">Session/Cache</div>
+                                <div class="arch-label">Cache</div>
                                 <div class="node-icons"><img src="https://skillicons.dev/icons?i=redis" alt="Redis"></div>
-                                <div class="node-text">Redis Cluster</div>
+                                <div class="node-text">Redis</div>
                             </div>
                         </div>
                     </div>
@@ -399,8 +520,15 @@
             </div>
         </div>
 
-        <h2>Database Design (ERD)</h2>
+        <h2>ERD</h2>
         <div class="card">
+            <div class="erd-header">
+                
+                <div class="erd-instruction">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    클릭하여 크게 보기
+                </div>
+            </div>
             <div class="erd-container">
                 <img src="erd.svg" alt="Entity Relationship Diagram" class="erd-image">
             </div>
@@ -527,5 +655,66 @@
             &copy; 2026 Personalized E-commerce Systems. Built with Passion.
         </div>
     </div>
+
+    <!-- Modal for ERD Full Screen -->
+    <div id="imageModal" class="modal">
+        <div class="close-modal">&times;</div>
+        <img class="modal-content" id="fullImage">
+    </div>
+
+    <script>
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("fullImage");
+
+        function openModal(src, isIcon) {
+            modal.style.display = "flex";
+            modalImg.src = src;
+            if (isIcon) {
+                modalImg.style.width = '250px';
+                modalImg.style.height = '250px';
+            } else {
+                modalImg.style.width = 'auto';
+                modalImg.style.maxWidth = '100%';
+                modalImg.style.maxHeight = '95vh';
+            }
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = 'auto';
+            modalImg.style.width = 'auto';
+            modalImg.style.height = 'auto';
+        }
+
+        // Global click handler for all clickable elements
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            
+            // Check for ERD image or instruction
+            if (target.classList.contains('erd-image') || target.closest('.erd-instruction')) {
+                const img = document.querySelector('.erd-image');
+                openModal(img.src, false);
+                return;
+            }
+
+            // Check for architecture icons
+            if (target.tagName === 'IMG' && target.closest('.node-icons')) {
+                openModal(target.src, true);
+                return;
+            }
+
+            // Close modal logic
+            if (target.id === 'imageModal' || target.classList.contains('close-modal') || target.classList.contains('modal-back-btn')) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
