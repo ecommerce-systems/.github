@@ -20,7 +20,10 @@
             --border: #e2e8f0;
         }
 
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box; 
+            cursor: url('Pikachu.ani'), auto;
+        }
 
         body {
             font-family: 'Pretendard', -apple-system, system-ui, sans-serif;
@@ -153,7 +156,7 @@
 
         .achievement-card .title { font-size: 1.15em; font-weight: 700; margin-bottom: 12px; display: block; }
         .achievement-card .metric { font-size: 0.95em; color: var(--text-muted); line-height: 1.6; flex-grow: 1; }
-        .achievement-card .highlight { color: var(--success); font-weight: 800; }
+        .achievement-card .highlight { color: var(--success); font-weight: 900; font-size: 1.15em; }
 
         /* Skill & Content Cards */
         .card {
@@ -221,7 +224,21 @@
         .result-table { width: 100%; border-collapse: collapse; }
         .result-table th { background: #f1f5f9; padding: 18px; text-align: left; font-size: 0.85em; font-weight: 700; color: var(--secondary); text-transform: uppercase; }
         .result-table td { padding: 18px; border-top: 1px solid var(--border); }
-        .result-table .highlight { color: var(--primary); font-weight: 800; }
+        .result-table .highlight { 
+            color: var(--primary); 
+            font-weight: 900; 
+            font-size: 1.1em; 
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .highlight { 
+            color: var(--primary); 
+            font-weight: 900; 
+            font-size: 1.15em; 
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
 
         .erd-image { 
             max-width: 100%; 
@@ -491,7 +508,7 @@
                 <div class="achievement-card">
                     <span class="badge">Performance</span>
                     <span class="title">"검색 성능 8.02배의 비약적 향상"</span>
-                    <p class="metric">다중 조인의 늪에 빠진 DB 부하를 해결하기 위해 **CQRS 패턴**을 도입했습니다. 읽기 전용 테이블을 분리하여 평균 응답 속도를 <span class="highlight">101ms에서 12.6ms</span>로 단축시키는 쾌거를 이루었습니다.</p>
+                    <p class="metric">다중 조인의 늪에 빠진 DB 부하를 해결하기 위해 **CQRS 패턴**을 도입했습니다. 읽기 전용 테이블을 분리하여 평균 응답 속도를 <span class="highlight">101ms에서 12.6ms</span>로 단축시키는 과정을 거쳤습니다.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">Scalability</span>
@@ -506,7 +523,7 @@
                 <div class="achievement-card">
                     <span class="badge">AI/ML</span>
                     <span class="title">"데이터로 증명한 10배의 추천 정밀도"</span>
-                    <p class="metric">단순 인기순 추천을 넘어, 사용자 흐름을 읽는 **마르코프 체인 모델**을 직접 구현했습니다. 기존 모델 대비 MAP@20 기준 **10배 이상의 정확도**를 기록하며 데이터의 가치를 증명했습니다.</p>
+                    <p class="metric">단순 인기순 추천을 넘어, 사용자 흐름을 읽는 **마르코프 체인 모델**을 직접 구현했습니다. 기존 모델 대비 MAP@20 기준 <span class="highlight">10배</span> 이상의 정확도를 기록하며 데이터의 가치를 증명했습니다.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">Ops</span>
@@ -677,7 +694,7 @@
                             <div class="trade-box decision"><strong>Decision</strong>사용자 경험상 상품 정보의 몇 초간의 업데이트 지연보다, 검색 결과가 나오지 않는 지연이 더 치명적이라 판단하여 도입을 결정했습니다.</div>
                         </div>
                         <div class="trade-off">
-                            <strong>결과:</strong> 결과는 놀라웠습니다. 평균 응답 속도는 <span class="highlight">12.6ms</span>로 8배 이상 빨라졌고, DB는 다시 안정을 찾았습니다.
+                            <strong>결과:</strong> 평균 응답 속도는 <span class="highlight">101ms에서 12.6ms</span>로 <span class="highlight">8배</span> 이상 단축되었습니다.
                         </div>
                     </ul>
                 </div>
@@ -693,7 +710,7 @@
                             <div class="trade-box decision"><strong>Decision</strong>데이터의 실시간성보다 시스템 전체의 응답성이 핵심인 추천 도메인의 특성을 고려하여 적극적인 캐싱을 채택했습니다.</div>
                         </div>
                         <div class="trade-off">
-                            <strong>결과:</strong> 평균 응답 속도가 <span class="highlight">210ms에서 6ms</span>로 약 35배 빨라졌으며, DB I/O 부하를 90% 이상 걷어냈습니다.
+                            <strong>결과:</strong> 평균 응답 속도가 <span class="highlight">210ms에서 6ms</span>로 약 <span class="highlight">35배</span> 빨라졌으며, DB I/O 부하를 <span class="highlight">90%</span> 이상 제거했습니다.
                         </div>
                     </ul>
                 </div>
@@ -701,7 +718,7 @@
                 <div class="challenge-item">
                     <h3>03. 인증 시스템 안정성 및 확장성 확보 (Stateless 아키텍처)</h3>
                     <ul>
-                        <li><strong>고민의 시작:</strong> 기존 RDB 기반 인증 방식이 고부하 상황에서 Race Condition을 유발하며 0.64%의 에러율을 기록했습니다. 또한, 서버 확장 시 세션 동기화 문제라는 확장성의 한계에 부딪혔습니다.</li>
+                        <li><strong>고민의 시작:</strong> 기존 RDB 기반 인증 방식이 고부하 상황에서 Race Condition을 유발하며 <span class="highlight">0.64%</span>의 에러율을 기록했습니다. 또한, 서버 확장 시 세션 동기화 문제라는 확장성의 한계에 부딪혔습니다.</li>
                         <li><strong>해결의 열쇠:</strong> 토큰 저장소를 **Redis In-Memory**로 이전하여 I/O 병목을 해결하고, JWT를 결합한 **Stateless 아키텍처**를 완성했습니다. 이를 통해 모든 서버 인스턴스가 동일한 인증 상태를 공유할 수 있게 되었습니다.</li>
                         <div class="trade-off-container">
                             <div class="trade-box pros"><strong>Pros</strong>동시성 제어의 안정성 확보 및 완벽한 수평 확장(Scale-out) 환경 구축</div>
@@ -709,7 +726,7 @@
                             <div class="trade-box decision"><strong>Decision</strong>대규모 트래픽 지향이라는 목표를 달성하기 위해, 관리가 용이한 RDB보다 성능과 확장성에 유리한 인메모리 방식이 필수적이라 판단했습니다.</div>
                         </div>
                         <div class="trade-off">
-                            <strong>결과:</strong> 고강도 테스트 중에도 에러율 <span class="highlight">0% (결함 제로)</span>를 달성했으며, 인증 API 응답 속도 또한 3.2배 향상되었습니다.
+                            <strong>결과:</strong> 고강도 테스트 중에도 에러율 <span class="highlight">0% (결함 제로)</span>를 달성했으며, 인증 API 응답 속도 또한 <span class="highlight">3.2배</span> 향상되었습니다.
                         </div>
                     </ul>
                 </div>
@@ -717,16 +734,17 @@
                 <div class="challenge-item">
                     <h3>04. 사용자 맞춤 추천을 위한 데이터 엔지니어링</h3>
                     <ul>
-                        <li><strong>고민의 시작:</strong> "사용자가 다음에 구매할 물건을 미리 알 수 없을까?"라는 비즈니스적 요구에 부딪혔습니다.</li>
-                        <li><strong>해결의 열쇠:</strong> 수만 명의 사용자 동선을 분석하여 **마르코프 체인 전이 확률 모델**을 구축했습니다. 이를 통해 사용자의 현재 장바구니 상태에 기반한 최적의 '다음 구매 상품'을 제안하는 엔진을 개발했습니다.</li>
+                        <li><strong>고민의 시작:</strong> "사용자가 다음에 구매할 물건을 미리 알 수 없을까?"라는 비즈니스적 요구에 부딪혔습니다. 단순 인기순 추천은 개인화된 경험을 제공하기에 부족했습니다.</li>
+                        <li><strong>해결의 열쇠:</strong> 수만 명의 사용자 동선을 분석하여 **마르코프 체인 전이 확률 모델**을 구축했습니다. 이를 통해 사용자의 현재 장바구니 상태와 과거 이력에 기반한 최적의 '다음 구매 상품'을 제안하는 엔진을 개발했습니다.</li>
                         <div class="trade-off-container">
-                            <div class="trade-box pros"><strong>Pros</strong>개인화된 쇼핑 경험 제공으로 구매 전환율 상승 기여</div>
+                            <div class="trade-box pros"><strong>Pros</strong>사용자 맞춤형 쇼핑 경험 제공으로 실질적인 구매 전환율 상승 기여</div>
                             <div class="trade-box cons"><strong>Cons</strong>대량의 로그 데이터를 전처리하고 모델을 학습시키기 위한 인프라 비용 발생</div>
                             <div class="trade-box decision"><strong>Decision</strong>서비스만의 고유한 경쟁력을 확보하기 위해 고성능 추천 엔진이 필수적이라 판단, 배치를 통해 연산 부하 분산 전략을 함께 세웠습니다.</div>
                             </div>
                             <div class="trade-off">
-                                <strong>결과:</strong> 10배 높은 지표 향상은 단순한 수치를 넘어 실질적인 매출 최적화로 이어졌습니다. **MAP@20의 비약적 향상**은 추천 리스트 내에 사용자가 실제 구매할 상품이 포함될 확률을 극대화하여 **사용자의 상품 탐색 비용을 획기적으로 낮췄으며**, **NDCG@20의 개선**은 가장 선호도가 높은 상품을 최상단에 노출함으로써 **구매 결정 여정을 단축**시켰습니다. 이러한 정교한 개인화는 장바구니 전환율(CVR) 상승과 추가 구매 유도를 통한 평균 주문 금액(AOV) 증대로 이어져, **데이터 엔지니어링이 비즈니스 수익으로 직결됨**을 증명했습니다.
-                            </div>                            </ul>
+                                <strong>결과:</strong> <span class="highlight">10배</span> 높은 지표 향상은 단순한 수치를 넘어 실질적인 매출 최적화로 이어졌습니다. **MAP@20의 비약적 향상**은 추천 리스트 내에 사용자가 실제 구매할 상품이 포함될 확률을 극대화하여 **사용자의 상품 탐색 비용을 획기적으로 낮췄으며**, **NDCG@20의 개선**은 가장 선호도가 높은 상품을 최상단에 노출함으로써 **구매 결정 여정을 단축**시켰습니다. 이러한 정교한 개인화는 장바구니 전환율(CVR) 상승과 추가 구매 유도를 통한 평균 주문 금액(AOV) 증대로 이어져, **데이터 엔지니어링이 비즈니스 수익으로 직결됨**을 증명했습니다.
+                            </div>
+                            </ul>
                     <div class="table-wrapper">
                         <table class="result-table">
                             <thead>
