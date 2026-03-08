@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오 | E-commerce System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --success: #059669;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Pretendard', -apple-system, system-ui, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            word-break: keep-all;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3.2em;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            background: linear-gradient(to right, #1e293b, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 60px 0 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Hero Meta */
+        .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .meta-item {
+            background: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.9em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            color: var(--text-muted);
+        }
+
+        .meta-item strong { color: var(--text-main); margin-right: 4px; }
+        .meta-item a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+        .project-description {
+            font-size: 1.2em;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 60px;
+            line-height: 1.8;
+        }
+
+        /* Achievement Grid */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .achievement-card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.1);
+        }
+
+        .achievement-card .badge {
+            font-size: 0.75em;
+            font-weight: 800;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .achievement-card .title { font-size: 1.15em; font-weight: 700; margin-bottom: 12px; display: block; }
+        .achievement-card .metric { font-size: 0.95em; color: var(--text-muted); line-height: 1.6; flex-grow: 1; }
+        .achievement-card .highlight { color: var(--success); font-weight: 800; }
+
+        /* Skill & Content Cards */
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .skill-category { display: flex; align-items: flex-start; margin-bottom: 20px; }
+        .skill-category:last-child { margin-bottom: 0; }
+        .category-label { min-width: 150px; font-weight: 700; color: var(--secondary); font-size: 0.9em; padding-top: 6px; }
+        .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+            background: var(--bg);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 1px solid var(--border);
+        }
+
+        /* Architecture Styles */
+        .arch-section { background: #fff; border-radius: 20px; border: 1px solid var(--border); padding: 40px; margin: 40px 0; }
+        .arch-zone { border: 2px dashed var(--border); border-radius: 16px; padding: 30px; margin-bottom: 30px; position: relative; background: #fafafa; }
+        .arch-zone::before { content: attr(data-label); position: absolute; top: -14px; left: 20px; background: white; padding: 0 12px; font-size: 0.8em; font-weight: 800; color: var(--secondary); text-transform: uppercase; border: 1px solid var(--border); border-radius: 6px; }
+        
+        .arch-diagram { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .arch-row { display: flex; justify-content: center; gap: 15px; width: 100%; flex-wrap: wrap; }
+        .arch-node { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 15px; min-width: 145px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
+        .arch-node.infra { border-top: 4px solid #3b82f6; }
+        .arch-node.app { border-top: 4px solid #10b981; }
+        .arch-node.db { border-top: 4px solid #f59e0b; }
+        .arch-node.security { border-top: 4px solid #ef4444; }
+        .arch-node.monitor { border-top: 4px solid #8b5cf6; }
+
+        .node-text { font-size: 0.85em; font-weight: 700; }
+        .node-icons img { width: 30px; height: 30px; }
+
+        .flow-line { height: 20px; width: 2px; background: #cbd5e1; position: relative; }
+        .flow-line::after { content: ''; position: absolute; bottom: -5px; left: -4px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #cbd5e1; }
+        .flow-label { font-size: 0.65em; color: var(--secondary); font-weight: 700; margin: 5px 0; }
+
+        /* Tables & Lists */
+        .challenge-item { border-bottom: 1px solid var(--border); padding-bottom: 40px; margin-bottom: 40px; }
+        .challenge-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .challenge-item ul { padding-left: 0; margin-top: 15px; }
+        .challenge-item li { margin-bottom: 12px; padding-left: 24px; position: relative; list-style: none; color: var(--text-muted); }
+        .challenge-item li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: 800; }
+        .challenge-item strong { color: var(--text-main); }
+        
+        .trade-off { background: #f8fafc; border-left: 4px solid var(--primary); padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0; font-size: 0.95em; color: var(--text-main); }
+        
+        .trade-off-container { display: flex; flex-direction: column; gap: 8px; margin: 15px 0; }
+        .trade-box { padding: 12px 16px; border-radius: 8px; font-size: 0.9em; line-height: 1.6; }
+        .trade-box strong { display: block; margin-bottom: 4px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
+        .trade-box.pros { background-color: #f0fdf4; border: 1px solid #bcf0da; color: #166534; }
+        .trade-box.cons { background-color: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        .trade-box.decision { background-color: #fefce8; border: 1px solid #fef08a; color: #854d0e; }
+
+        .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); margin: 25px 0; }
+        .result-table { width: 100%; border-collapse: collapse; }
+        .result-table th { background: #f1f5f9; padding: 18px; text-align: left; font-size: 0.85em; font-weight: 700; color: var(--secondary); text-transform: uppercase; }
+        .result-table td { padding: 18px; border-top: 1px solid var(--border); }
+        .result-table .highlight { color: var(--primary); font-weight: 800; }
+
+        .erd-image { max-width: 100%; border-radius: 16px; border: 1px solid var(--border); background: white; padding: 15px; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2em; }
+            .container { padding: 40px 15px; }
+            .arch-row { flex-direction: column; align-items: center; }
+            .arch-node { width: 90%; }
+        }
+        .footer { text-align: center; margin-top: 80px; color: var(--secondary); font-size: 0.9em; padding-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Personalized E-commerce System</h1>
+            <div class="project-meta">
+                <div class="meta-item"><strong>URL</strong> <a href="https://www.ecommerce.p-e.kr/" target="_blank">ecommerce.p-e.kr</a></div>
+                <div class="meta-item"><strong>GitHub</strong> <a href="https://github.com/orgs/ecommerce-systems/" target="_blank">View Organization</a></div>
+                <div class="meta-item"><strong>Period</strong> 2025.11 - 2026.01</div>
+            </div>
+            <p class="project-description">
+                1,300만 건의 **H&M Kaggle Dataset**을 기반으로 구축된 대규모 트래픽 지향 이커머스 시스템입니다. 
+                단순 API 개발을 넘어 **CQRS 패턴을 통한 검색 성능 최적화**, **Redis 분산 세션 관리**, **마르코프 체인 추천 알고리즘** 적용 등 백엔드 아키텍처의 견고함과 데이터 기반 가치 창출에 집중했습니다.
+            </p>
+        </header>
+
+        <h2>핵심 성과 (Key Results)</h2>
+        <div class="achievement-grid">
+            <div class="achievement-card">
+                <span class="badge">Performance</span>
+                <span class="title">검색 성능 8.02배 향상</span>
+                <p class="metric">다중 조인으로 인한 DB 부하를 해결하기 위해 **CQRS 패턴 및 역정규화 테이블**을 구축했습니다. 평균 Latency를 <span class="highlight">101ms에서 12.6ms</span>로 단축했습니다.</p>
+            </div>
+            <div class="achievement-card">
+                <span class="badge">Scalability</span>
+                <span class="title">API 응답 35배 개선</span>
+                <p class="metric">추천 시스템 연산 부하를 줄이기 위해 **Redis 캐싱 전략**을 도입했습니다. 반복 요청에 대해 DB I/O를 제거하여 응답 속도를 <span class="highlight">210ms에서 6ms</span>로 개선했습니다.</p>
+            </div>
+            <div class="achievement-card">
+                <span class="badge">Stability</span>
+                <span class="title">인증 시스템 결함 0%</span>
+                <p class="metric">RDB 기반 인증의 Race Condition 문제를 **Redis In-Memory 저장소**로 이전하여 해결했습니다. 고부하 테스트 중 에러율을 <span class="highlight">0.64%에서 0%</span>로 안정화했습니다.</p>
+            </div>
+            <div class="achievement-card">
+                <span class="badge">AI/ML</span>
+                <span class="title">추천 정확도 10배 달성</span>
+                <p class="metric">자체 개발한 **마르코프 체인 모델**이 기존 인기 상품(Popularity) 추천 모델 대비 **MAP@20 기준 10배 이상의 정확도**를 기록했습니다.</p>
+            </div>
+            <div class="achievement-card">
+                <span class="badge">Ops</span>
+                <span class="title">고가용성 인프라 구축</span>
+                <p class="metric">**Docker Swarm**을 이용한 수평 확장으로 단일 장애 지점(SPOF)을 제거하고, **GitHub Actions**로 무중단 CI/CD 환경을 구축했습니다.</p>
+            </div>
+        </div>
+
+        <h2>Technical Tech Stack</h2>
+        <div class="card">
+            <div class="skill-category">
+                <div class="category-label">Frontend</div>
+                <div class="skill-chips">
+                    <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">Zustand</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-label">Backend Core</div>
+                <div class="skill-chips">
+                    <span class="chip">Java 17</span><span class="chip">Spring Boot 3.x</span><span class="chip">Spring Security</span><span class="chip">JPA (Hibernate)</span><span class="chip">JUnit 5 (TDD)</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-label">Data Layer</div>
+                <div class="skill-chips">
+                    <span class="chip">PostgreSQL</span><span class="chip">Redis Cluster</span><span class="chip">CQRS Pattern</span><span class="chip">Denormalization</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-label">Infra & Ops</div>
+                <div class="skill-chips">
+                    <span class="chip">Docker Swarm</span><span class="chip">Nginx</span><span class="chip">GitHub Actions</span><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Ubuntu</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <div class="category-label">Data Analysis</div>
+                <div class="skill-chips">
+                    <span class="chip">Python 3.11</span><span class="chip">Markov Chain</span><span class="chip">Pandas / NumPy</span><span class="chip">Evaluation Metrics (MAP, NDCG)</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>Overall System Architecture</h2>
+        <div class="arch-section">
+            <div class="arch-diagram">
+                
+                <!-- Public Zone -->
+                <div class="arch-zone" data-label="Public Zone (DMZ)">
+                    <div class="arch-row">
+                        <div class="arch-node">
+                            <div class="arch-label">Frontend</div>
+                            <div class="node-icons"><img src="https://skillicons.dev/icons?i=react,ts" alt="React"></div>
+                            <div class="node-text">React Application</div>
+                        </div>
+                        <div class="arch-node infra">
+                            <div class="arch-label">LB & Gateway</div>
+                            <div class="node-icons"><img src="https://skillicons.dev/icons?i=nginx,docker" alt="Nginx"></div>
+                            <div class="node-text">Docker Swarm / Nginx</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-label">REST API (JWT Auth)</div>
+                <div class="flow-line"></div>
+
+                <!-- App Zone -->
+                <div class="arch-zone" data-label="Private Zone (Application Layer)">
+                    <div class="arch-node security" style="margin-bottom: 20px;">
+                        <div class="arch-label">Access Control</div>
+                        <div class="node-icons"><img src="https://skillicons.dev/icons?i=spring" alt="Security"></div>
+                        <div class="node-text">Spring Security / JWT</div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-node app"><div class="node-text">Service Instance A</div></div>
+                        <div class="arch-node app"><div class="node-text">Service Instance B</div></div>
+                    </div>
+                </div>
+
+                <div class="flow-label">Persistence & Sync Flow</div>
+                <div class="flow-line"></div>
+
+                <!-- Data & Ops Zone -->
+                <div class="arch-row">
+                    <div class="arch-zone" data-label="Data Layer" style="flex: 2;">
+                        <div class="arch-row">
+                            <div class="arch-node db">
+                                <div class="arch-label">Main DB</div>
+                                <div class="node-icons"><img src="https://skillicons.dev/icons?i=postgres" alt="Postgres"></div>
+                                <div class="node-text">PostgreSQL</div>
+                            </div>
+                            <div class="arch-node db">
+                                <div class="arch-label">Session/Cache</div>
+                                <div class="node-icons"><img src="https://skillicons.dev/icons?i=redis" alt="Redis"></div>
+                                <div class="node-text">Redis Cluster</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arch-zone" data-label="Batch & Analysis" style="flex: 1;">
+                        <div class="arch-node monitor">
+                            <div class="arch-label">ML Models</div>
+                            <div class="node-icons"><img src="https://skillicons.dev/icons?i=py" alt="Python"></div>
+                            <div class="node-text">Markov Engine</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoring & DevOps -->
+                <div class="arch-zone" data-label="Operations & Monitoring Zone">
+                    <div class="arch-row">
+                        <div class="arch-node monitor">
+                            <div class="arch-label">CI/CD</div>
+                            <div class="node-icons"><img src="https://skillicons.dev/icons?i=githubactions,docker" alt="CI/CD"></div>
+                            <div class="node-text">GitHub Actions</div>
+                        </div>
+                        <div class="arch-node monitor">
+                            <div class="arch-label">Metrics</div>
+                            <div class="node-icons"><img src="https://skillicons.dev/icons?i=prometheus" alt="Prometheus"></div>
+                            <div class="node-text">Prometheus</div>
+                        </div>
+                        <div class="arch-node monitor">
+                            <div class="arch-label">Dashboard</div>
+                            <div class="node-icons"><img src="https://skillicons.dev/icons?i=grafana" alt="Grafana"></div>
+                            <div class="node-text">Grafana</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Database Design (ERD)</h2>
+        <div class="card">
+            <div class="erd-container">
+                <img src="erd.svg" alt="Entity Relationship Diagram" class="erd-image">
+            </div>
+            <div class="erd-description" style="margin-top: 25px;">
+                <ul>
+                    <li><strong>도메인 중심 설계:</strong> Auth, User, Product, Order 도메인을 명확히 분리하여 MSA 전환이 용이한 구조를 지향했습니다.</li>
+                    <li><strong>CQRS 패턴 구현:</strong> `ProductSearch` 테이블을 별도로 두어, 정규화된 데이터의 무결성을 지키면서도 검색 시에는 다중 조인 없는 고성능 조회를 가능케 했습니다.</li>
+                    <li><strong>마르코프 전이 확률 저장:</strong> `CoPurchase` 테이블을 통해 추천 엔진이 계산한 상품 간 연관 점수를 실시간 API에 제공합니다.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>주요 기술 과제 및 해결 경험</h2>
+        <div class="card">
+            <div class="challenge-item">
+                <h3>1. 검색 성능 최적화 (CQRS 및 역정규화)</h3>
+                <ul>
+                    <li><strong>Challenge:</strong> 5개 이상의 테이블 조인으로 인한 검색 API의 높은 Latency(101ms) 및 DB 부하 문제.</li>
+                    <li><strong>Action:</strong> 
+                        <ul>
+                            <li><strong>CQRS 패턴 도입:</strong> 단일 DB 내 읽기 전용 <strong>역정규화 테이블을 구축</strong>하여 다중 조인 연산을 근본적으로 제거.</li>
+                            <li><strong>데이터 정합성 보장:</strong> 도메인 이벤트 기반의 <strong>비동기 처리</strong>를 통해 쓰기 모델과 읽기 모델 간의 최종 일관성 확보.</li>
+                            <li><strong>인덱스 최적화:</strong> 역정규화된 테이블에 복합 인덱스를 적용하여 다양한 검색 조건에서도 O(log N) 성능 보장.</li>
+                        </ul>
+                    </li>
+                    <div class="trade-off-container">
+                        <div class="trade-box pros"><strong>Pros</strong>조회 성능 극대화, 복잡한 JOIN 제거로 인한 DB 부하 감소</div>
+                        <div class="trade-box cons"><strong>Cons</strong>데이터 중복 저장 및 모델 간 일시적 데이터 불일치(Eventual Consistency) 발생 가능성</div>
+                        <div class="trade-box decision"><strong>Decision</strong>이커머스 검색 특성상 실시간성보다 응답 속도가 UX에 미치는 영향이 크다고 판단하여 도입 결정</div>
+                    </div>
+                    <div class="trade-off">
+                        <strong>Result:</strong> 평균 응답 속도 <span class="highlight">101ms → 12.6ms</span> (8.02배 향상) 및 DB CPU 점유율 대폭 감소.
+                    </div>
+                </ul>
+            </div>
+
+            <div class="challenge-item">
+                <h3>2. API 응답 속도 극대화 (Caching)</h3>
+                <ul>
+                    <li><strong>Challenge:</strong> 추천 시스템 등 연산 집약적이거나 반복적인 DB 조회가 필요한 API의 Latency 최소화.</li>
+                    <li><strong>Action:</strong> 변경 빈도가 낮은 데이터에 <strong>Redis 기반 캐싱 전략</strong>을 적용. 반복 요청은 DB를 거치지 않고 메모리에서 즉시 결과를 반환하도록 구현.</li>
+                    <div class="trade-off-container">
+                        <div class="trade-box pros"><strong>Pros</strong>DB I/O를 메모리 접근으로 대체하여 응답 속도 비약적 향상 및 인프라 비용 절감</div>
+                        <div class="trade-box cons"><strong>Cons</strong>캐시 데이터 갱신(Invalidation) 정책 설정의 복잡성 및 메모리 자원 추가 소모</div>
+                        <div class="trade-box decision"><strong>Decision</strong>조회 빈도가 높고 데이터의 실시간 갱신이 상대적으로 덜 민감한 추천 데이터의 특성을 고려</div>
+                    </div>
+                    <div class="trade-off">
+                        <strong>Result:</strong> 평균 응답 속도 <span class="highlight">210ms → 6ms</span> (35배 향상) 및 DB I/O 부하 대폭 절감.
+                    </div>
+                </ul>
+            </div>
+
+            <div class="challenge-item">
+                <h3>3. 인증 시스템 안정성 및 확장성 확보</h3>
+                <ul>
+                    <li><strong>Challenge:</strong> RDB 기반 인증 방식이 고부하 상황에서 Race Condition 발생(0.64% 에러율) 및 I/O 병목 유발.</li>
+                    <li><strong>Action:</strong> 
+                        <ul>
+                            <li><strong>In-Memory 저장소 활용:</strong> 토큰 저장소를 Redis로 전환하여 디스크 I/O 병목 해결.</li>
+                            <li><strong>Stateless 아키텍처:</strong> JWT와 Redis를 결합하여 서버 확장(Scale-out) 시에도 정합성 유지.</li>
+                        </ul>
+                    </li>
+                    <div class="trade-off-container">
+                        <div class="trade-box pros"><strong>Pros</strong>동시성 제어 안정성 확보 및 세션 불일치 문제 근본적 해결</div>
+                        <div class="trade-box cons"><strong>Cons</strong>Redis 인프라 관리 비용 및 추가적인 네트워크 홉 발생</div>
+                        <div class="trade-box decision"><strong>Decision</strong>고부하 상황에서의 무결성과 수평 확장성 확보를 위해 인메모리 기반 세션 관리 방식 선택</div>
+                    </div>
+                    <div class="trade-off">
+                        <strong>Result:</strong> 에러율 <span class="highlight">0% (결함 제로)</span> 달성 및 인증 API 응답 속도 3.2배 향상.
+                    </div>
+                </ul>
+            </div>
+
+            <div class="challenge-item">
+                <h3>4. 데이터 기반 추천 시스템 개발</h3>
+                <ul>
+                    <li><strong>Challenge:</strong> 개인화된 상품 추천을 통해 구매 전환율을 높여야 하는 비즈니스 과제.</li>
+                    <li><strong>Action:</strong> 사용자 구매 이력을 기반으로 다음 구매 상품을 예측하는 <strong>Markov Chain 모델</strong> 개발 및 MAP, NDCG 지표를 통한 검증.</li>
+                    <div class="trade-off-container">
+                        <div class="trade-box pros"><strong>Pros</strong>단순 인기순 대비 높은 개인화 정확도(10배 이상) 및 구매 전환율 기여</div>
+                        <div class="trade-box cons"><strong>Cons</strong>모델 연산량 증가 및 학습 데이터 관리를 위한 추가 파이프라인 필요</div>
+                        <div class="trade-box decision"><strong>Decision</strong>서비스 경쟁력 확보를 위해 고정밀 모델을 선택하고, 배치를 통해 연산 부하 분산</div>
+                    </div>
+                </ul>
+                <div class="table-wrapper">
+                    <table class="result-table">
+                        <thead>
+                            <tr><th>Model Name</th><th>MAP@20 (Accuracy)</th><th>NDCG@20 (Ranking)</th><th>MRR@20 (Rank)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Markov Transition Model</strong></td><td class="highlight">0.1052</td><td class="highlight">0.1235</td><td class="highlight">0.1189</td></tr>
+                            <tr><td>Global Popularity Model</td><td>0.0098</td><td>0.0153</td><td>0.0121</td></tr>
+                            <tr><td>Random Recommendation</td><td>0.0012</td><td>0.0021</td><td>0.0015</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <h2>인프라 및 개발 문화</h2>
+        <div class="card">
+            <div class="challenge-item">
+                <h3>운영 및 품질 관리</h3>
+                <ul>
+                    <li><strong>고가용성 아키텍처 (Scale-Out):</strong> Docker Swarm을 이용한 수평 확장으로 단일 장애 지점(SPOF)을 제거하고 트래픽 급증에 유연하게 대응합니다.</li>
+                    <li><strong>인프라 자동화 (CI/CD):</strong> GitHub Actions와 Docker를 활용하여 테스트, 빌드, 배포 파이프라인을 자동화하고 재현 가능한 환경을 구축했습니다.</li>
+                    <li><strong>모니터링:</strong> Prometheus, Grafana 기반의 대시보드를 구축하여 시스템 상태를 실시간으로 추적하고 장애 발생 시 빠른 원인 분석이 가능합니다.</li>
+                    <li><strong>코드 품질:</strong> **TDD(Test Driven Development)** 방식의 테스트 코드 작성을 지향하고, 상세한 API 문서와 UML 다이어그램을 통해 협업 효율을 높였습니다.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>향후 과제 및 기술 비전</h2>
+        <div class="card">
+            <div class="challenge-item">
+                <ul>
+                    <li><strong>MSA 전환 준비:</strong> 현재 모놀리식 아키텍처의 한계를 극복하기 위해 **CDC(Change Data Capture) 또는 이벤트 기반 아키텍처**를 도입하여 서비스 간 결합도를 낮출 계획입니다.</li>
+                    <li><strong>AI 기술 접목:</strong> 추천 모델 고도화 및 **LLM(Large Language Model)**을 활용한 지능형 상품 검색 등 사용자 경험을 혁신하는 기술을 지속 연구하고 있습니다.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; 2026 Personalized E-commerce Systems. Built with Passion.
+        </div>
+    </div>
+</body>
+</html>
