@@ -785,7 +785,7 @@
                     <h3>01. 복잡한 JOIN의 늪에서 탈출하기 (CQRS 도입)</h3>
                     <ul>
                         <li><strong>고민의 시작:</strong> 서비스 규모가 커지며 검색 한 번에 5개 이상의 테이블을 조인하게 되었고, 응답 시간이 100ms를 넘어서며 DB CPU 점유율이 치솟았습니다.</li>
-                        <li><strong>해결의 열쇠:</strong> 단순히 하드웨어를 늘리는 대신 **CQRS 패턴**을 선택했습니다. 조인이 필요 없는 '검색 전용 읽기 모델'을 구축하고, 도메인 이벤트를 통해 데이터 정합성을 비동기로 맞추는 구조를 설계했습니다.</li>
+                        <li><strong>해결의 열쇠:</strong> 단순히 하드웨어를 늘리는 대신 **CQRS 패턴**을 선택했습니다. 조인이 필요 없는 '검색 전용 읽기 모델'을 구축하고, 도메인 이벤트를 통해 데이터 정합성을 동기로 맞추는 구조를 설계했습니다.</li>
                         
                         <div style="margin-top: 20px;">
                             <div style="font-size: 0.9em; font-weight: 700; margin-bottom: 10px; color: var(--secondary);">테스트 환경 (k6 Load Test)</div>
