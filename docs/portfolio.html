@@ -361,6 +361,78 @@
             60% {transform: translateY(-2px);}
         }
 
+        /* Console Table Styles */
+        .console-wrapper {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 25px 20px 20px;
+            margin: 25px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            font-family: 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+            color: #d4d4d4;
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        .console-wrapper::before {
+            content: 'TERMINAL';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: #333;
+            color: #888;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            padding-left: 45px;
+            letter-spacing: 1px;
+        }
+        .console-wrapper::after {
+            content: '● ● ●';
+            position: absolute;
+            top: 6px;
+            left: 12px;
+            color: #ff5f56;
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-shadow: 15px 0 #ffbd2e, 30px 0 #27c93f;
+        }
+        .console-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .console-table th {
+            text-align: left;
+            border-bottom: 1px solid #444;
+            padding: 12px 10px;
+            color: #569cd6;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .console-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #2d2d2d;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        .console-table .highlight {
+            color: #4ec9b0;
+            text-decoration: none;
+            font-weight: 700;
+            background: rgba(78, 201, 176, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .console-table td strong {
+            color: #ce9178;
+            font-weight: 700;
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 2.2em; }
             .container { padding: 40px 15px; }
@@ -532,18 +604,18 @@
             <div class="achievement-grid">
                 <div class="achievement-card">
                     <span class="badge">Performance</span>
-                    <span class="title">"검색 성능 8.02배의 비약적 향상"</span>
-                    <p class="metric">다중 조인의 늪에 빠진 DB 부하를 해결하기 위해 **CQRS 패턴**을 도입했습니다. 읽기 전용 테이블을 분리하여 평균 응답 속도를 <span class="highlight">101ms에서 12.6ms</span>로 단축시키는 과정을 거쳤습니다.</p>
+                    <span class="title">"검색 성능의 비약적 향상과 부하 안정성 확보"</span>
+                    <p class="metric">다중 조인 기반의 DB 부하를 해결하기 위해 CQRS 패턴을 도입했습니다. 200 VU 고부하 테스트 결과, CPU 사용량의 증가 없이 중앙값 응답 속도를 <span class="highlight">154ms에서 124ms</span>로 단축하며 시스템 안정성을 증명했습니다.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">Scalability</span>
-                    <span class="title">"캐싱 전략이 만든 35배의 응답 혁신"</span>
-                    <p class="metric">반복되는 추천 연산의 DB I/O를 제거하기 위해 **Redis 기반 캐싱**을 설계했습니다. 잦은 호출에도 시스템이 지치지 않도록 구조를 개선하여 응답 속도를 <span class="highlight">210ms에서 6ms</span>로 최적화했습니다.</p>
+                    <span class="title">"캐싱과 최적화가 만든 고가용성 추천 엔진"</span>
+                    <p class="metric">Redis 캐싱과 단일 요청 구조를 통해 고부하 상황에서의 응답 지연을 극복했습니다. 200 VU 테스트 결과, CPU 점유율이 <span class="highlight">17.5%에서 12.0%</span>로 감소하며 안정적으로 초당 <span class="highlight">6,852건(RPS)</span>을 처리했습니다.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">Stability</span>
                     <span class="title">"결함률 0%를 향한 무결성 설계"</span>
-                    <p class="metric">고부하 상황에서 발생하던 인증 Race Condition을 해결하고자 세션 저장소를 **Redis**로 이전했습니다. 고강도 부하 테스트 결과, 에러율을 <span class="highlight">0.64%에서 완벽한 0%</span>로 안정화했습니다.</p>
+                    <p class="metric">고부하 상황에서 발생하던 인증 Race Condition을 해결하고자 세션 저장소를 Redis로 이전했습니다. 고강도 부하 테스트 결과, 에러율을 <span class="highlight">1.58%에서 완벽한 0%</span>로 안정화했습니다.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">AI/ML</span>
@@ -714,13 +786,55 @@
                     <ul>
                         <li><strong>고민의 시작:</strong> 서비스 규모가 커지며 검색 한 번에 5개 이상의 테이블을 조인하게 되었고, 응답 시간이 100ms를 넘어서며 DB CPU 점유율이 치솟았습니다.</li>
                         <li><strong>해결의 열쇠:</strong> 단순히 하드웨어를 늘리는 대신 **CQRS 패턴**을 선택했습니다. 조인이 필요 없는 '검색 전용 읽기 모델'을 구축하고, 도메인 이벤트를 통해 데이터 정합성을 비동기로 맞추는 구조를 설계했습니다.</li>
+                        
+                        <div style="margin-top: 20px;">
+                            <div style="font-size: 0.9em; font-weight: 700; margin-bottom: 10px; color: var(--secondary);">테스트 환경 (k6 Load Test)</div>
+                            <div class="table-wrapper">
+                                <table class="result-table">
+                                    <thead>
+                                        <tr><th>항목</th><th>상세 내용</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>테스트 도구</td><td>k6</td></tr>
+                                        <tr><td>가상 사용자 수 (VUs)</td><td>200명</td></tr>
+                                        <tr><td>테스트 유지 시간</td><td>20초</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="trade-off-container">
                             <div class="trade-box pros"><strong>Pros</strong>데이터 조인 연산을 0으로 수렴하게 하여 극단적인 조회 성능 확보</div>
                             <div class="trade-box cons"><strong>Cons</strong>쓰기 모델과 읽기 모델 간의 최종 일관성(Eventual Consistency)에 대한 관리 필요</div>
                             <div class="trade-box decision"><strong>Decision</strong>사용자 경험상 상품 정보의 몇 초간의 업데이트 지연보다, 검색 결과가 나오지 않는 지연이 더 치명적이라 판단하여 도입을 결정했습니다.</div>
                         </div>
+
+                        <div class="monitor-comparison" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div>
+                                <div style="font-size: 0.85em; font-weight: 700; margin-bottom: 8px; color: var(--secondary);">[Before] V1 CPU 모니터링</div>
+                                <img src="searchv1.png" alt="V1 Monitoring" class="erd-image">
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; font-weight: 700; margin-bottom: 8px; color: var(--secondary);">[After] V2 CPU 모니터링</div>
+                                <img src="searchv2.png" alt="V2 Monitoring" class="erd-image">
+                            </div>
+                        </div>
+
+                        <div class="console-wrapper">
+                            <table class="console-table">
+                                <thead>
+                                    <tr><th>성능 지표</th><th>V1 (Search)</th><th>V2 (Search)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>중앙값 응답 시간 (Med)</td><td>154.44ms</td><td class="highlight">124.24ms</td></tr>
+                                    <tr><td>평균 응답 시간 (Avg)</td><td>644.13ms</td><td>641.79ms</td></tr>
+                                    <tr><td>초당 요청 수 (RPS)</td><td>303.05/s</td><td>303.61/s</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="trade-off">
-                            <strong>결과:</strong> 평균 응답 속도는 <span class="highlight">101ms에서 12.6ms</span>로 <span class="highlight">8배</span> 이상 단축되었습니다.
+                            <strong>결과:</strong> 200 VU 부하 테스트 결과, V1 대비 CPU 부하 차이 없이 중앙값 응답 속도가 약 <span class="highlight">20%</span> 개선되었습니다.
                         </div>
                     </ul>
                 </div>
@@ -730,13 +844,55 @@
                     <ul>
                         <li><strong>고민의 시작:</strong> 추천 시스템 등 연산 집약적인 로직이 매번 DB를 거치며 전체 API 성능의 병목 지점이 되었습니다. 특히 반복적인 조회 요청은 불필요한 DB I/O를 발생시켰습니다.</li>
                         <li><strong>해결의 열쇠:</strong> 데이터의 변경 빈도가 낮고 조회 빈도가 높은 특성을 활용해 **Redis 기반 캐싱 레이어**를 구축했습니다. Cache-Aside 전략을 통해 반복되는 요청은 메모리에서 즉시 반환하도록 구현했습니다.</li>
+                        
+                        <div style="margin-top: 20px;">
+                            <div style="font-size: 0.9em; font-weight: 700; margin-bottom: 10px; color: var(--secondary);">테스트 환경 (k6 Load Test)</div>
+                            <div class="table-wrapper">
+                                <table class="result-table">
+                                    <thead>
+                                        <tr><th>항목</th><th>상세 내용</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>테스트 도구</td><td>k6</td></tr>
+                                        <tr><td>가상 사용자 수 (VUs)</td><td>200명</td></tr>
+                                        <tr><td>테스트 유지 시간</td><td>20초</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="trade-off-container">
                             <div class="trade-box pros"><strong>Pros</strong>DB 접근을 최소화하여 응답 속도를 비약적으로 향상시키고 인프라 비용 절감</div>
                             <div class="trade-box cons"><strong>Cons</strong>캐시 데이터 갱신(Invalidation) 정책의 복잡성 및 메모리 자원 추가 관리 필요</div>
                             <div class="trade-box decision"><strong>Decision</strong>데이터의 실시간성보다 시스템 전체의 응답성이 핵심인 추천 도메인의 특성을 고려하여 적극적인 캐싱을 채택했습니다.</div>
                         </div>
+
+                        <div class="monitor-comparison" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div>
+                                <div style="font-size: 0.85em; font-weight: 700; margin-bottom: 8px; color: var(--secondary);">[Before] V1 캐싱 모니터링</div>
+                                <img src="copurcharsev1.png" alt="V1 Caching Monitoring" class="erd-image">
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; font-weight: 700; margin-bottom: 8px; color: var(--secondary);">[After] V2 캐싱 모니터링</div>
+                                <img src="copurcharsev2.png" alt="V2 Caching Monitoring" class="erd-image">
+                            </div>
+                        </div>
+
+                        <div class="console-wrapper">
+                            <table class="console-table">
+                                <thead>
+                                    <tr><th>성능 지표</th><th>V1 (Co-Purchase)</th><th>V2 (Co-Purchase)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>중앙값 응답 시간 (Med)</td><td>24.20ms</td><td class="highlight">21.66ms</td></tr>
+                                    <tr><td>초당 요청 수 (RPS)</td><td>6168.68/s</td><td>6852.87/s</td></tr>
+                                    <tr><td>95% 응답 시간 (p95)</td><td>92.59ms</td><td>70.68ms</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="trade-off">
-                            <strong>결과:</strong> 평균 응답 속도가 <span class="highlight">210ms에서 6ms</span>로 약 <span class="highlight">35배</span> 빨라졌으며, DB I/O 부하를 <span class="highlight">90%</span> 이상 제거했습니다.
+                            <strong>결과:</strong> 200 VU 부하 테스트 결과, Redis 캐싱과 구조 최적화를 통해 초당 <span class="highlight">6,800건 이상</span>의 요청을 안정적으로 처리하는 성과를 거두었습니다.
                         </div>
                     </ul>
                 </div>
@@ -744,15 +900,57 @@
                 <div class="challenge-item">
                     <h3>03. 인증 시스템 안정성 및 확장성 확보 (Stateless 아키텍처)</h3>
                     <ul>
-                        <li><strong>고민의 시작:</strong> 기존 RDB 기반 인증 방식이 고부하 상황에서 Race Condition을 유발하며 <span class="highlight">0.64%</span>의 에러율을 기록했습니다. 또한, 서버 확장 시 세션 동기화 문제라는 확장성의 한계에 부딪혔습니다.</li>
+                        <li><strong>고민의 시작:</strong> 기존 RDB 기반 인증 방식이 고부하 상황에서 Race Condition을 유발하며 <span class="highlight">1.58%</span>의 에러율을 기록했습니다. 또한, 서버 확장 시 세션 동기화 문제라는 확장성의 한계에 부딪혔습니다.</li>
                         <li><strong>해결의 열쇠:</strong> 토큰 저장소를 **Redis In-Memory**로 이전하여 I/O 병목을 해결하고, JWT를 결합한 **Stateless 아키텍처**를 완성했습니다. 이를 통해 모든 서버 인스턴스가 동일한 인증 상태를 공유할 수 있게 되었습니다.</li>
+                        
+                        <div style="margin-top: 20px;">
+                            <div style="font-size: 0.9em; font-weight: 700; margin-bottom: 10px; color: var(--secondary);">테스트 환경 (k6 Load Test)</div>
+                            <div class="table-wrapper">
+                                <table class="result-table">
+                                    <thead>
+                                        <tr><th>항목</th><th>상세 내용</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>테스트 도구</td><td>k6</td></tr>
+                                        <tr><td>가상 사용자 수 (VUs)</td><td>100명</td></tr>
+                                        <tr><td>테스트 유지 시간</td><td>10초</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="trade-off-container">
                             <div class="trade-box pros"><strong>Pros</strong>동시성 제어의 안정성 확보 및 완벽한 수평 확장(Scale-out) 환경 구축</div>
                             <div class="trade-box cons"><strong>Cons</strong>Redis 인프라 관리 리소스 및 추가적인 네트워크 홉 발생</div>
                             <div class="trade-box decision"><strong>Decision</strong>대규모 트래픽 지향이라는 목표를 달성하기 위해, 관리가 용이한 RDB보다 성능과 확장성에 유리한 인메모리 방식이 필수적이라 판단했습니다.</div>
                         </div>
+
+                        <div class="monitor-comparison" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div>
+                                <div style="font-size: 0.85em; font-weight: 700; margin-bottom: 8px; color: var(--secondary);">[Before] V1 인증 모니터링</div>
+                                <img src="refreshv1.png" alt="V1 Auth Monitoring" class="erd-image">
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; font-weight: 700; margin-bottom: 8px; color: var(--secondary);">[After] V2 인증 모니터링</div>
+                                <img src="refreshv2.png" alt="V2 Auth Monitoring" class="erd-image">
+                            </div>
+                        </div>
+
+                        <div class="console-wrapper">
+                            <table class="console-table">
+                                <thead>
+                                    <tr><th>성능 지표</th><th>V1 (DB 기반)</th><th>V2 (Redis 기반)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>평균 응답 시간 (Avg)</td><td>154.81ms</td><td class="highlight">18.46ms</td></tr>
+                                    <tr><td>중앙값 응답 시간 (Med)</td><td>39.00ms</td><td>11.00ms</td></tr>
+                                    <tr><td>에러율 (Error Rate)</td><td>1.58%</td><td class="highlight">0.00%</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="trade-off">
-                            <strong>결과:</strong> 고강도 테스트 중에도 에러율 <span class="highlight">0% (결함 제로)</span>를 달성했으며, 인증 API 응답 속도 또한 <span class="highlight">3.2배</span> 향상되었습니다.
+                            <strong>결과:</strong> 고강도 테스트 중에도 에러율 <span class="highlight">0% (결함 제로)</span>를 달성했으며, CPU 점유율을 <span class="highlight">17.5%에서 14.1%</span>로 개선하는 성과를 거두었습니다.
                         </div>
                     </ul>
                 </div>
@@ -768,17 +966,25 @@
                             <div class="trade-box decision"><strong>Decision</strong>서비스만의 고유한 경쟁력을 확보하기 위해 고성능 추천 엔진이 필수적이라 판단, 배치를 통해 연산 부하 분산 전략을 함께 세웠습니다.</div>
                             </div>
                             <div class="trade-off">
-                                <strong>결과:</strong> <span class="highlight">10배</span> 높은 지표 향상은 단순한 수치를 넘어 실질적인 매출 최적화로 이어졌습니다. **MAP@20의 비약적 향상**은 추천 리스트 내에 사용자가 실제 구매할 상품이 포함될 확률을 극대화하여 **사용자의 상품 탐색 비용을 획기적으로 낮췄으며**, **NDCG@20의 개선**은 가장 선호도가 높은 상품을 최상단에 노출함으로써 **구매 결정 여정을 단축**시켰습니다. 이러한 정교한 개인화는 장바구니 전환율(CVR) 상승과 추가 구매 유도를 통한 평균 주문 금액(AOV) 증대로 이어져, **데이터 엔지니어링이 비즈니스 수익으로 직결됨**을 증명했습니다.
+                                <strong>결과:</strong> 실제 트랜잭션 로그 기반 평가에서 기존 대비 <span class="highlight">10배</span> 향상된 성과를 달성했습니다.
+                                <ul style="margin-top: 10px; margin-bottom: 10px;">
+                                    <li><strong>MAP@20 개선:</strong> 추천 리스트에 실제 구매 상품이 포함될 확률 증가 &rarr; 사용자의 탐색 비용 절감</li>
+                                    <li><strong>NDCG@20 개선:</strong> 선호 상품을 상단에 노출 &rarr; 구매 결정 과정 단축</li>
+                                </ul>
+                                이러한 정교한 개인화는 장바구니 전환율(CVR) 상승과 추가 구매 유도를 통해 비즈니스 수익성 향상에 기여할 수 있습니다.
+                            </div>
+                            <div style="margin-top: 20px; margin-bottom: 20px;">
+                                <img src="ml.png" alt="Model Metrics Comparison" class="erd-image" style="width: 100%;">
                             </div>
                             </ul>
-                    <div class="table-wrapper">
-                        <table class="result-table">
+                    <div class="console-wrapper">
+                        <table class="console-table">
                             <thead>
-                                <tr><th>Model Name</th><th>MAP@20 (정확도)</th><th>NDCG@20 (랭킹 품질)</th><th>성능 요약</th></tr>
+                                <tr><th>모델명</th><th>MAP@20 (정확도)</th><th>NDCG@20 (랭킹 품질)</th><th>성능 요약</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><strong>Markov Transition Engine</strong></td><td class="highlight">0.1052</td><td class="highlight">0.1235</td><td><strong>압도적 정밀도</strong></td></tr>
-                                <tr><td>Global Popularity Model</td><td>0.0098</td><td>0.0153</td><td>단순 인기순</td></tr>
+                                <tr><td><strong>마르코프 전이 예측 엔진</strong></td><td class="highlight">0.1052</td><td class="highlight">0.1235</td><td><strong>압도적 정밀도</strong></td></tr>
+                                <tr><td>글로벌 인기순 모델</td><td>0.0098</td><td>0.0153</td><td>단순 인기순</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -791,9 +997,24 @@
             <div class="card">
                 <div class="challenge-item">
                     <ul>
-                        <li><strong>확장 가능한 구조:</strong> Docker Swarm을 통해 트래픽 급증 시 서버를 유연하게 늘리는 구조를 만들었습니다.</li>
-                        <li><strong>자동화된 신뢰:</strong> **TDD**와 GitHub Actions로 안전하고 빠른 파이프라인을 완성했습니다.</li>
-                        <li><strong>가시성 확보:</strong> Prometheus와 Grafana 대시보드를 구축하여, 장애가 발생하기 전 징후를 먼저 발견할 수 있는 관제 체계를 갖췄습니다.</li>
+                        <li>
+                            <strong>확장 가능한 구조:</strong> Docker Swarm을 통해 트래픽 급증 시 서버를 유연하게 늘리는 구조를 만들었습니다.
+                            <div style="margin-top: 20px;">
+                                <img src="swarm.png" alt="Docker Swarm Replicas" class="erd-image" style="width: 100%;">
+                            </div>
+                        </li>
+                        <li>
+                            <strong>자동화된 신뢰:</strong> **TDD**와 GitHub Actions로 안전하고 빠른 파이프라인을 완성했습니다.
+                            <div style="margin-top: 20px;">
+                                <img src="cicd.png" alt="CI/CD Pipeline" class="erd-image" style="width: 100%;">
+                            </div>
+                        </li>
+                        <li>
+                            <strong>가시성 확보:</strong> Prometheus와 Grafana 대시보드를 구축하여, 장애가 발생하기 전 징후를 먼저 발견할 수 있는 관제 체계를 갖췄습니다.
+                            <div style="margin-top: 20px;">
+                                <img src="granfana.png" alt="Grafana Dashboard" class="erd-image" style="width: 100%;">
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -851,10 +1072,16 @@
         document.addEventListener('click', function(e) {
             const target = e.target;
             
-            // Check for ERD image or instruction
-            if (target.classList.contains('erd-image') || target.closest('.erd-instruction')) {
-                const img = document.querySelector('.erd-image');
-                openModal(img.src, false);
+            // Check for any image with .erd-image class
+            if (target.classList.contains('erd-image')) {
+                openModal(target.src, false);
+                return;
+            }
+
+            // Check for ERD instruction (click to view large)
+            if (target.closest('.erd-instruction')) {
+                const erdImg = document.querySelector('#section-erd .erd-image');
+                if (erdImg) openModal(erdImg.src, false);
                 return;
             }
 
@@ -1014,3 +1241,4 @@
     </script>
 </body>
 </html>
+
