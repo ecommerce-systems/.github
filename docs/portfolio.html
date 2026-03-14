@@ -512,8 +512,7 @@
             border-radius: 18px;
             padding: 12px 18px;
             margin-bottom: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 220px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);            max-width: 220px;
             position: relative;
             font-size: 0.9em;
             font-weight: 700;
@@ -590,14 +589,14 @@
     <div class="container">
         
     <header id="section-hero">
-        <h1>H&M 1,300만 건 데이터 기반 구매 예측(Next-Item Prediction) 및 고성능 커머스 시스템</h1>
+        <h1>H&M 대규모 데이터 기반 구매 예측(Next-Item Prediction) 및 고성능 커머스 시스템</h1>
         <div class="project-meta">
             <div class="meta-item"><strong>Service</strong> <a href="https://p-e.kr" target="_blank">ecommerce.p-e.kr</a></div>
             <div class="meta-item"><strong>Repository</strong> <a href="https://github.com" target="_blank">E-commerce Systems</a></div>
             <div class="meta-item"><strong>Duration</strong> 2025.11 - 2026.03</div>
         </div>
         <p class="project-description">
-            H&M Group의 <strong>1,300만 건 의류 데이터</strong>와 <strong>실제 구매 트랜잭션 로그</strong>를 분석하여, 마르코프 체인(Markov Chain) 기반의 <strong>'차순위 구매 예측(Next-Item Prediction)'</strong> 엔진을 구현함. 
+            H&M Group의 <strong>대규모 의류 데이터</strong>와 <strong>실제 구매 트랜잭션 로그</strong>를 분석하여, 마르코프 체인(Markov Chain) 기반의 <strong>'차순위 구매 예측(Next-Item Prediction)'</strong> 엔진을 구현함. 
             대규모 트래픽 환경에서의 실시간 추천을 위해 <strong>CQRS 패턴</strong>과 <strong>Redis 캐싱 레이어</strong>를 도입하여 DB 부하를 분산하고 응답 지연을 최소화함. 
             k6 부하 테스트를 통해 검색 Latency 8배 단축, 인증 에러율 0% 등 정량적인 성능 지표를 확보함.
         </p>
@@ -964,7 +963,7 @@
                     <h3>04. 마르코프 체인 기반의 실시간 구매 예측 엔진 구현</h3>
                     <ul>
                         <li><strong>문제 정의 및 배경:</strong> 단순 인기순 추천 방식은 개별 사용자의 행동 맥락을 반영하지 못해 전환율 향상에 한계가 있음. 사용자의 다음 구매 행동을 예측할 수 있는 정교한 모델이 요구됨.</li>
-                        <li><strong>기술적 해결 방안:</strong> 수만 건의 사용자 구매 여정을 분석하여 <strong>마르코프 체인 전이 확률 모델</strong>을 구축함. 현재 상태(최근 구매)를 기반으로 다음 상태(구매 확률이 가장 높은 상품)를 예측하는 엔진을 개발함.</li>
+                        <li><strong>기술적 해결 방안:</strong> 대량의 사용자 구매 여정을 분석하여 <strong>마르코프 체인 전이 확률 모델</strong>을 구축함. 현재 상태(최근 구매)를 기반으로 다음 상태(구매 확률이 가장 높은 상품)를 예측하는 엔진을 개발함.</li>
                         <div class="trade-off-container">
                             <div class="trade-box pros"><strong>Pros</strong>사용자 맞춤형 쇼핑 경험 제공을 통해 구매 전환율(CVR) 상승에 직접 기여</div>
                             <div class="trade-box cons"><strong>Cons</strong>대규모 로그 데이터의 전처리 및 확률 행렬 연산을 위한 시스템 리소스 소모</div>
@@ -1134,7 +1133,7 @@
             'Service Instance B': { desc: '수평 확장된 서비스 유닛.', reason: 'Docker Swarm 로드 밸런싱을 통해 트래픽을 효율적으로 처리.' },
 
             // Data Layer
-            'PostgreSQL': { desc: '강력한 오픈소스 관계형 데이터베이스.', reason: '1,300만 건 데이터의 무결성 보장 및 복합 인덱스를 이용한 조회 최적화.' },
+            'PostgreSQL': { desc: '강력한 오픈소스 관계형 데이터베이스.', reason: '대규모 데이터의 무결성 보장 및 복합 인덱스를 이용한 조회 최적화.' },
             'Redis': { desc: '고성능 인메모리 데이터 저장소.', reason: '분산 세션 관리 및 추천 데이터 캐싱으로 DB I/O 부하 90% 이상 제거.' },
             'CQRS Pattern': { desc: '명령과 조회 책임 분리 패턴.', reason: '읽기 전용 역정규화 테이블 구축으로 검색 속도 101ms에서 12.6ms로 단축.' },
             'Denormalization': { desc: '성능 최적화를 위한 데이터 역정규화.', reason: '다중 조인 연산을 제거하여 실시간 검색 API 응답 속도 극대화.' },
@@ -1157,7 +1156,7 @@
             'K6': { desc: '부하테스트 용도.', reason: '로컬 환경에서 트래픽을 임의로 발생시켜 어느 정도까지 버티고 성능 향상은 어디까지 되는지, 성공률을 어느 정도인지 확인.' },
             'Python 3.11': { desc: '데이터 과학 최적화 언어.', reason: '추천 알고리즘 개발 및 대용량 데이터 전처리 연산에 활용.' },
             'Markov Chain': { desc: '확률 기반 상태 전이 모델.', reason: '사용자 구매 이력을 바탕으로 다음 구매 상품을 예측하는 추천 엔진 핵심 모델.' },
-            'Pandas / NumPy': { desc: '데이터 처리 핵심 라이브러리.', reason: '1,300만 건의 데이터셋을 고속으로 연산하고 특징점을 추출.' },
+            'Pandas / NumPy': { desc: '데이터 처리 핵심 라이브러리.', reason: '대규모 데이터셋을 고속으로 연산하고 특징점을 추출.' },
             'Evaluation Metrics (MAP, NDCG)': { desc: '알고리즘 정밀도 평가 지표.', reason: '단순 인기순 추천 대비 10배 높은 정확도를 정량적으로 확인.' },
             'ML Models': { desc: '머신러닝 예측 엔진.', reason: '마르코프 체인 기반의 추천 알고리즘이 탑재된 분석 모듈.' }
         };
