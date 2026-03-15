@@ -598,7 +598,7 @@
         <p class="project-description">
             H&M Group의 <strong>대규모 의류 데이터</strong>와 <strong>실제 구매 트랜잭션 로그</strong>를 분석하여, 현재 조회 중인 상품과 함께 구매될 확률이 높은 상품을 실시간으로 제안하는 <strong>연관 구매 예측(Next-Item Prediction)</strong> 엔진을 구현함. 
             대규모 트래픽 환경에서의 지연 없는 추천을 위해 <strong>CQRS 패턴</strong>과 <strong>Redis 캐싱 레이어</strong>를 도입하여 DB 부하를 분산하고 응답 속도를 극대화함. 
-            k6 부하 테스트를 통해 검색 Latency 8배 단축, 인증 에러율 0% 등 정량적인 성능 지표를 확보함.
+            k6 부하 테스트를 통해 중앙값 응답 속도 20% 개선, 인증 에러율 0% 등 정량적인 성능 지표를 확보함.
         </p>
     </header>
 
@@ -609,12 +609,12 @@
                 <div class="achievement-card">
                     <span class="badge">Performance</span>
                     <span class="title">CQRS 도입을 통한 검색 Latency 최적화</span>
-                    <p class="metric">다중 조인 기반의 DB 병목을 해결하기 위해 읽기 전용 역정규화 테이블을 구축함. Zero-Join 설계를 통해 검색 Latency를 기존 대비 <span class="highlight">8.02배</span> 단축하며 시스템 응답성을 확보함.</p>
+                    <p class="metric">다중 조인 기반의 DB 병목을 해결하기 위해 읽기 전용 역정규화 테이블을 구축함. Zero-Join 설계를 통해 검색 Latency의 중앙값을 기존 대비 <span class="highlight">20%</span> 단축하며 시스템 응답성을 확보함.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">Scalability</span>
                     <span class="title">Redis 캐싱을 이용한 고가용성 추천 엔진</span>
-                    <p class="metric">Redis 캐시 레이어 도입 및 단일 요청(Single-Request) 구조 최적화를 통해 200 VU 부하 테스트 시 CPU 점유율을 <span class="highlight">17.5%에서 12.0%</span>로 개선하고 초당 <span class="highlight">6,852건(RPS)</span>을 처리함.</p>
+                    <p class="metric">Redis 캐싱 도입을 통해 200 VU 부하 테스트 시 CPU 점유율을 <span class="highlight">16.3%에서 12.1%</span>로 개선하고 초당 <span class="highlight">6,800건(RPS) 이상</span>의 요청을 안정적으로 처리함.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">Stability</span>
@@ -808,7 +808,7 @@
                         </div>
 
                         <div class="trade-off-container">
-                            <div class="trade-box pros"><strong>Pros</strong>데이터 조인 연산을 완전히 제거하여 극단적인 조회 성능(Latency 8.02배 단축) 확보</div>
+                            <div class="trade-box pros"><strong>Pros</strong>데이터 조인 연산을 완전히 제거하여 극단적인 조회 성능(중앙값 20% 개선) 확보</div>
                             <div class="trade-box cons"><strong>Cons</strong>쓰기 모델과 읽기 모델 간의 최종 일관성(Eventual Consistency) 관리 필요</div>
                             <div class="trade-box decision"><strong>Decision</strong>상품 정보의 실시간 업데이트보다 검색 결과 노출 지연이 사용자 경험에 더 치명적이라 판단하여 비동기적 동기화 구조를 채택함.</div>
                         </div>
@@ -838,7 +838,7 @@
                         </div>
 
                         <div class="trade-off">
-                            <strong>결과:</strong> 200 VU 부하 테스트 결과, V1 대비 중앙값 응답 속도가 약 <span class="highlight">20%</span> 개선됨을 확인했으며, 특정 시나리오에서는 최대 <span class="highlight">8.02배</span>의 Latency 단축 효과를 기록함.
+                            <strong>결과:</strong> 200 VU 부하 테스트 결과, V1 대비 중앙값 응답 속도가 약 <span class="highlight">20%</span> 개선됨을 확인하여 시스템 응답성을 확보함.
                         </div>
                     </ul>
                 </div>
@@ -890,13 +890,13 @@
                                 <tbody>
                                     <tr><td>중앙값 응답 시간 (Med)</td><td>24.20ms</td><td class="highlight">21.66ms</td></tr>
                                     <tr><td>초당 요청 수 (RPS)</td><td>6168.68/s</td><td>6852.87/s</td></tr>
-                                    <tr><td>CPU 사용량 (200 VU)</td><td>17.5%</td><td class="highlight">12.0% (31% 감소)</td></tr>
+                                    <tr><td>CPU 사용량 (200 VU)</td><td>16.3%</td><td class="highlight">12.1% (25% 감소)</td></tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="trade-off">
-                            <strong>결과:</strong> 200 VU 부하 테스트 결과, Redis 캐싱 도입을 통해 CPU 점유율을 <span class="highlight">31%</span> 절감하고 초당 <span class="highlight">6,800건 이상</span>의 요청을 안정적으로 처리함.
+                            <strong>결과:</strong> 200 VU 부하 테스트 결과, Redis 캐싱 도입을 통해 CPU 점유율을 <span class="highlight">25%</span> 절감하고 초당 <span class="highlight">6,800건 이상</span>의 요청을 안정적으로 처리함.
                         </div>
                     </ul>
                 </div>
@@ -1109,7 +1109,7 @@
         // Technical Insight Data & Logic
         const techData = {
             // Badges
-            'Performance': { desc: '시스템 응답 속도 및 처리 효율성.', reason: '사용자 경험에 직결되는 요소로, 검색 Latency 8.02배 단축 달성.' },
+            'Performance': { desc: '시스템 응답 속도 및 처리 효율성.', reason: '사용자 경험에 직결되는 요소로, 검색 Latency 중앙값 20% 단축 달성.' },
             'Scalability': { desc: '트래픽 증가에 따른 수평 확장 능력.', reason: '대규모 트래픽 지향 시스템 구축을 위해 Docker Swarm 및 캐싱 전략 채택.' },
             'Stability': { desc: '고부하 상황에서의 무결성 및 가용성.', reason: '인증 에러율 0% 달성을 위해 Redis 기반 Stateless 아키텍처 구현.' },
             'AI/ML': { desc: '데이터 기반 인공지능 모델링.', reason: '개인화 추천을 위해 마르코프 체인 기반 확률 모델 자체 개발.' },
