@@ -790,6 +790,7 @@
                     <ul>
                         <li><strong>문제 정의 및 배경:</strong> 서비스 규모 확장에 따라 상품 조회 시 10여 개의 테이블을 조인하는 Multi-Join 부하가 발생했으며, 응답 시간이 100ms를 상회하며 DB CPU 점유율이 급증함.</li>
                         <li><strong>기술적 해결 방안:</strong> 쓰기(Command) 모델과 읽기(Query) 모델을 분리하는 <strong>CQRS 패턴</strong>을 도입함. 검색 전용 <strong>역정규화 테이블(ProductSearch)</strong>을 구축하여 Zero-Join을 달성하고, 복합 인덱스를 최적화함.</li>
+                        <li><strong>V1 vs V2 성능 개선 핵심:</strong> 기존 V1은 ID만 반환하여 프런트엔드에서 추가 정보 조회를 위한 API 재호출(N+1 Network Call)을 유발했으나, V2는 역정규화 테이블에서 모든 메타데이터를 한 번에 서빙하여 네트워크 라운드트립을 최소화함.</li>
                         
                         <div style="margin-top: 20px;">
                             <div style="font-size: 0.9em; font-weight: 700; margin-bottom: 10px; color: var(--secondary);">테스트 환경 (k6 Load Test)</div>
