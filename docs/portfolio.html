@@ -868,7 +868,7 @@
                         <div class="trade-off-container">
                             <div class="trade-box pros"><strong>Pros</strong>DB I/O 부하를 90% 이상 제거하여 응답 속도 향상 및 인프라 비용 절감</div>
                             <div class="trade-box cons"><strong>Cons</strong>캐시 무효화(Invalidation) 정책의 복잡성 및 메모리 자원 관리 오버헤드</div>
-                            <div class="trade-box decision"><strong>Decision</strong>시스템 응답성이 핵심인 추천 도메인 특성을 고려하여, 데이터의 실시간성보다 고속 조회를 우선하는 캐싱 정책을 수립함.</div>
+                            <div class="trade-off"><strong>Decision</strong>시스템 응답성을 위해 Redis를 우선 조회하되, Redis 장애 시 DB를 직접 조회하는 <strong>Fallback 로직</strong>을 구현하여 서비스 가용성을 보장함.</div>
                         </div>
 
                         <div class="monitor-comparison" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
@@ -1141,6 +1141,7 @@
             'Spring Security': { desc: '보안 및 인증 프레임워크.', reason: '유연한 필터 체인을 통한 JWT 기반 Stateless 인증 체계 구축.' },
             'JPA': { desc: 'Java Persistence API (ORM).', reason: '객체 지향적인 데이터 접근으로 생산성 향상 및 쿼리 최적화.' },
             'JUnit 5 (TDD)': { desc: '자바 유닛 테스트 프레임워크.', reason: '테스트 주도 개발을 통해 비즈니스 로직의 신뢰성 및 회귀 방지 보장.' },
+            'Swagger (OpenAPI 3.0)': { desc: 'REST API 문서화 및 테스트 도구.', reason: '프런트엔드 협업 효율을 높이고, 실제 운영 환경에서의 API 명세를 자동화하여 관리.' },
             'Access Control': { desc: '시스템 보안 및 권한 제어.', reason: 'Spring Security와 JWT를 결합하여 역할 기반 접근 제어(RBAC) 구현.' },
             'Service Instance A': { desc: '수평 확장된 서비스 유닛.', reason: '무중단 운영과 부하 분산을 위해 다중 인스턴스로 구성.' },
             'Service Instance B': { desc: '수평 확장된 서비스 유닛.', reason: 'Docker Swarm 로드 밸런싱을 통해 트래픽을 효율적으로 처리.' },
