@@ -596,9 +596,9 @@
             <div class="meta-item"><strong>Duration</strong> 2025.11 - 2026.03</div>
         </div>
         <p class="project-description">
-            H&M Group의 <strong>대규모 의류 데이터</strong>와 <strong>실제 구매 트랜잭션 로그</strong>를 분석하여, 현재 조회 중인 상품과 함께 구매될 확률이 높은 상품을 실시간으로 제안하는 <strong>연관 구매 예측(Next-Item Prediction)</strong> 엔진을 구현함. 
+            H&M Group의 <strong>1만 4천 건의 상품 데이터</strong>와 <strong>8만 건의 실제 구매 트랜잭션 로그</strong>를 분석하여, 현재 조회 중인 상품과 함께 구매될 확률이 높은 상품을 실시간으로 제안하는 <strong>연관 구매 예측(Next-Item Prediction)</strong> 엔진을 구현함. 
             대규모 트래픽 환경에서의 지연 없는 추천을 위해 <strong>CQRS 패턴</strong>과 <strong>Redis 캐싱 레이어</strong>를 도입하여 DB 부하를 분산하고 응답 속도를 극대화함. 
-            k6 부하 테스트를 통해 중앙값 응답 속도 20% 개선, 인증 에러율 0% 등 정량적인 성능 지표를 확보함.
+            k6 부하 테스트를 통해 중앙값 응답 속도 20% 개선, 특정 테스트 시나리오 내 에러율 0% 등 정량적인 성능 지표를 확보함.
         </p>
     </header>
 
@@ -612,14 +612,14 @@
                     <p class="metric">다중 조인 기반의 DB 병목을 해결하기 위해 읽기 전용 역정규화 테이블을 구축함. Zero-Join 설계를 통해 검색 Latency의 중앙값을 기존 대비 <span class="highlight">20%</span> 단축하며 시스템 응답성을 확보함.</p>
                 </div>
                 <div class="achievement-card">
-                    <span class="badge">Scalability</span>
+                    <span class="badge">Performance</span>
                     <span class="title">Redis 캐싱을 이용한 고가용성 추천 엔진</span>
                     <p class="metric">Redis 캐싱 도입을 통해 200 VU 부하 테스트 시 CPU 점유율을 <span class="highlight">16.3%에서 12.1%</span>로 개선하고 초당 <span class="highlight">6,800건(RPS) 이상</span>의 요청을 안정적으로 처리함.</p>
                 </div>
                 <div class="achievement-card">
-                    <span class="badge">Stability</span>
-                    <span class="title">Stateless 인증 체계 및 결함률 0% 달성</span>
-                    <p class="metric">고부하 시 RDB의 Race Condition으로 발생하던 인증 실패(1.58%) 해결을 위해 Redis 기반 세션 저장소를 도입함. 100 VU 고강도 테스트 결과, 에러율 <span class="highlight">0.00%</span>의 결함 제로 상태를 달성함.</p>
+                    <span class="badge">Performance</span>
+                    <span class="title">Stateless 인증 체계 및 신뢰성 확보</span>
+                    <p class="metric">고부하 시 RDB의 Race Condition으로 발생하던 인증 실패(1.58%) 해결을 위해 Redis 기반 세션 저장소를 도입함. 100 VU 고강도 테스트 결과, 에러율 <span class="highlight">0.00%</span>의 안정적인 인증 프로세스를 검증함.</p>
                 </div>
                 <div class="achievement-card">
                     <span class="badge">AI/ML</span>
@@ -808,9 +808,9 @@
                         </div>
 
                         <div class="trade-off-container">
-                            <div class="trade-box pros"><strong>Pros</strong>데이터 조인 연산을 완전히 제거하여 극단적인 조회 성능(중앙값 20% 개선) 확보</div>
-                            <div class="trade-box cons"><strong>Cons</strong>쓰기 모델과 읽기 모델 간의 최종 일관성(Eventual Consistency) 관리 필요</div>
-                            <div class="trade-box decision"><strong>Decision</strong>상품 정보의 실시간 업데이트보다 검색 결과 노출 지연이 사용자 경험에 더 치명적이라 판단하여 비동기적 동기화 구조를 채택함.</div>
+                            <div class="trade-box pros"><strong>Pros</strong>데이터 조인 연산을 완전히 제거하여 조회 성능 최적화 및 DB CPU 부하 분산</div>
+                            <div class="trade-box cons"><strong>Cons</strong>Command와 Query 모델 간의 데이터 정합성 유지 비용 발생</div>
+                            <div class="trade-box decision"><strong>Decision</strong>Spring Application Events를 활용한 비동기 동기화 로직을 구현하여 '최종 일관성(Eventual Consistency)'을 보장함. 읽기 성능이 UX에 미치는 영향이 더 크다고 판단하여 조회 전용 모델을 구축함.</div>
                         </div>
 
                         <div class="monitor-comparison" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
@@ -963,13 +963,19 @@
                     <h3>04. 실시간 연관 구매 예측(Frequently Bought Together) 엔진 구현</h3>
                     <ul>
                         <li><strong>문제 정의 및 배경:</strong> 단순 인기순 추천 방식은 사용자의 현재 관심사를 반영하지 못해 구매 전환율 향상에 한계가 있음. 현재 보고 있는 상품과 함께 구매될 확률이 높은 상품을 정교하게 제안할 모델이 요구됨.</li>
-                        <li><strong>기술적 해결 방안:</strong> 대량의 트랜잭션 로그를 분석하여 상품 간 전이 확률을 계산하는 <strong>마르코프 체인(Markov Chain)</strong> 모델을 구축함. 이를 통해 현재 상품(State)을 기준으로 다음 구매 가능성이 가장 높은 아이템들을 실시간으로 추출하는 엔진을 개발함.</li>
+                        <li><strong>기술적 해결 방안:</strong> 고객의 구매 여정을 상태 전이 과정으로 모델링하는 <strong>마르코프 체인(Markov Chain)</strong> 엔진을 직접 구현함.
+                            <ul style="margin-top: 10px; font-size: 0.95em; border-left: 2px solid var(--primary-light); padding-left: 15px; margin-left: 10px;">
+                                <li><strong>구매 시퀀스 분석:</strong> 트랜잭션 로그를 시간순으로 정렬하여 '상품 A &rarr; 상품 B'로 이어지는 고객별 구매 여정을 상태 전이 데이터로 변환</li>
+                                <li><strong>전이 확률 행렬 구축:</strong> 특정 상품 구매 후 다음 상품이 나타난 빈도를 확률화하여 전이 확률 행렬(Transition Matrix) 구축</li>
+                                <li><strong>데이터 최적화(Top-20):</strong> 실시간 연산 부하를 제거하기 위해 전이 확률이 가장 높은 상위 20개의 연관 상품만을 선별하여 데이터 경량화</li>
+                                <li><strong>고성능 서빙 통합:</strong> Python으로 사전 계산된 전이 확률을 메인 DB(CoPurchase)에 영속화하고, API 서버에서는 <strong>Cache-Aside</strong> 전략을 기반으로 Redis의 <strong>Sorted Set(ZSET)</strong>에 캐싱하여 O(log N)의 속도로 실시간 추천 결과를 서빙함</li>
+                            </ul>
+                        </li>
                         <div class="trade-off-container">
-                            <div class="trade-box pros"><strong>Pros</strong>사용자의 현재 맥락을 반영한 맞춤형 제안으로 실질적인 구매 전환율 상승 기여</div>
-                            <div class="trade-box cons"><strong>Cons</strong>대규모 로그 데이터의 전처리 및 확률 행렬 연산을 위한 시스템 리소스 소모</div>
-                            <div class="trade-box decision"><strong>Decision</strong>실시간 연산 부하를 최소화하기 위해 배치 시스템에서 전이 확률을 사전 계산하고, API 서버에서는 사전 계산된 행렬을 참조하는 구조를 선택함.</div>
-                            </div>
-                            <div class="trade-off">
+                            <div class="trade-box pros"><strong>Pros</strong>사용자의 현재 맥락(State)을 반영한 맞춤형 제안으로 실질적인 구매 전환율 상승 기여</div>
+                            <div class="trade-box cons"><strong>Cons</strong>대규모 로그 데이터의 전처리 및 확률 행렬 연산을 위한 배치 프로세스 필요</div>
+                            <div class="trade-box decision"><strong>Decision</strong>데이터의 영속성을 위해 RDB에 먼저 저장하되, 실시간 API 응답 성능을 보장하기 위해 Redis 캐싱 레이어를 결합한 하이브리드 저장 구조를 채택함.</div>
+                        </div>                            <div class="trade-off">
                                 <strong>결과:</strong> 실제 트랜잭션 로그 기반 평가에서 인기순 모델 대비 <span class="highlight">10배</span> 이상의 정확도 향상을 확인함.
                                 <ul style="margin-top: 10px; margin-bottom: 10px;">
                                     <li><strong>MAP@20 (Mean Average Precision):</strong> 0.0098 &rarr; <span class="highlight">0.1052</span> (10.7배 향상)</li>
@@ -980,6 +986,13 @@
                                 <img src="ml.png" alt="Model Metrics Comparison" class="erd-image" style="width: 100%;">
                             </div>
                             </ul>
+                            <div style="margin-top: 15px; font-size: 0.85em; color: var(--text-muted); background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid var(--border); line-height: 1.5;">
+                                <strong>평가지표</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px;">
+                                    <li><strong>MAP@20 (정확도):</strong> 추천된 상위 20개 상품 중 실제 구매가 발생한 상품의 비율과 그 <strong>정확도</strong>를 종합하여 측정</li>
+                                    <li><strong>NDCG@20 (랭킹 품질):</strong> 더 관련성 높은 상품이 <strong>상단 순위(Ranking)</strong>에 잘 배치되었는지 가중치를 부여하여 평가</li>
+                                </ul>
+                            </div>
                     <div class="console-wrapper">
                         <table class="console-table">
                             <thead>
@@ -1036,7 +1049,7 @@
         </section>
 
         <div class="footer">
-            &copy; 2026 E-commerce Systems.
+            &copy; 2026 E-commerce Systems. All technical metrics confirmed via k6 load testing and automated evaluation scripts.
         </div>
     </div>
 
@@ -1135,7 +1148,7 @@
             // Data Layer
             'PostgreSQL': { desc: '강력한 오픈소스 관계형 데이터베이스.', reason: '대규모 데이터의 무결성 보장 및 복합 인덱스를 이용한 조회 최적화.' },
             'Redis': { desc: '고성능 인메모리 데이터 저장소.', reason: '분산 세션 관리 및 추천 데이터 캐싱으로 DB I/O 부하 90% 이상 제거.' },
-            'CQRS Pattern': { desc: '명령과 조회 책임 분리 패턴.', reason: '읽기 전용 역정규화 테이블 구축으로 검색 속도 101ms에서 12.6ms로 단축.' },
+            'CQRS Pattern': { desc: '명령(Command)과 조회(Query) 책임을 분리하여 시스템의 확장성과 성능을 최적화하는 패턴.', reason: 'Spring Events를 활용한 비동기 동기화로 조회 전용 모델을 구축하여 검색 성능(154ms→124ms)을 개선함.' },
             'Denormalization': { desc: '성능 최적화를 위한 데이터 역정규화.', reason: '다중 조인 연산을 제거하여 실시간 검색 API 응답 속도 극대화.' },
             'Main DB': { desc: '시스템의 메인 영속성 저장소.', reason: 'PostgreSQL을 사용하여 비즈니스 데이터의 엄격한 일관성 관리.' },
             'Cache': { desc: '데이터 임시 저장소.', reason: 'Redis를 활용하여 반복 요청에 대한 응답 시간을 ms 단위로 단축.' },
