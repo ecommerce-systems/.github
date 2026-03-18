@@ -886,7 +886,7 @@
                                 <li><strong>구매 시퀀스 분석:</strong> 트랜잭션 로그를 시간순으로 정렬하여 '상품 A &rarr; 상품 B'로 이어지는 고객별 구매 여정을 상태 전이 데이터로 변환</li>
                                 <li><strong>전이 확률 행렬 구축:</strong> 특정 상품 구매 후 다음 상품이 나타난 빈도를 확률화하여 전이 확률 행렬(Transition Matrix) 구축</li>
                                 <li><strong>데이터 최적화(Top-20):</strong> 실시간 연산 부하를 제거하기 위해 전이 확률이 가장 높은 상위 20개의 연관 상품만을 선별하여 데이터 경량화</li>
-                                <li><strong>고성능 서빙 통합:</strong> Python으로 사전 계산된 전이 확률을 메인 DB(CoPurchase)에 영속화하고, API 서버에서는 <strong>Cache-Aside</strong> 전략을 기반으로 Redis의 <strong>Sorted Set(ZSET)</strong>에 캐싱하여 O(log N)의 속도로 실시간 추천 결과를 서빙함</li>
+                                <li><strong>고성능 서빙 통합:</strong> Python으로 사전 계산된 전이 확률을 메인 DB(CoPurchase)에 영속화하고, API 서버에서는 <strong>Cache-Aside</strong> 전략을 기반으로 Redis에 캐싱하여 추천 결과를 서빙함</li>
                             </ul>
                         </li>
                         <div class="trade-off-container">
