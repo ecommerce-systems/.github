@@ -1,3 +1,4 @@
+<div align="center">
 <img src="프리뷰.gif" width="450"/>
 
 
