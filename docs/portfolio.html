@@ -494,83 +494,6 @@
             cursor: help !important;
         }
 
-        /* Side Guide Character */
-        .side-guide {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            z-index: 2500;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            pointer-events: none;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .speech-bubble {
-            background: white;
-            border: 2px solid var(--primary);
-            border-radius: 18px;
-            padding: 12px 18px;
-            margin-bottom: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);            max-width: 220px;
-            position: relative;
-            font-size: 0.9em;
-            font-weight: 700;
-            color: var(--text-main);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s ease;
-        }
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            right: 30px;
-            border-width: 10px 10px 0;
-            border-style: solid;
-            border-color: var(--primary) transparent transparent;
-        }
-        .speech-bubble.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .character-img {
-            width: 70px;
-            height: 70px;
-            background: #2563eb;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-            animation: float 3s ease-in-out infinite;
-            position: relative;
-            pointer-events: auto;
-        }
-        .character-img::before {
-            content: 'SYS';
-            font-size: 14px;
-            font-weight: 900;
-            letter-spacing: 1px;
-        }
-        .character-img::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid #2563eb;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.4); opacity: 0; }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
     </style>
 </head>
 <body>
@@ -578,12 +501,6 @@
         <div class="insight-title"></div>
         <div class="insight-desc"></div>
         <div class="insight-reason"></div>
-    </div>
-
-    <!-- Side Guide -->
-    <div class="side-guide">
-        <div class="speech-bubble" id="guide-bubble">시스템 아키텍처 가이드를 시작합니다.</div>
-        <div class="character-img"></div>
     </div>
 
     <div class="container">
@@ -1216,46 +1133,6 @@
             }
         });
 
-        // System Guide Logic
-        const guideBubble = document.getElementById('guide-bubble');
-        const guideComments = {
-            'section-hero': '프로젝트의 개요입니다.',
-            'section-achievement': '시스템 성능 최적화 성과입니다.',
-            'section-tech': '안정성과 확장성을 최우선으로 고려하여 선별한 기술 스택입니다.',
-            'section-arch': '시스템 아키텍처입니다.',
-            'section-erd': '데이터 모델링입니다.',
-            'section-challenges': '기술적 병목 구간을 해결하기 위한 심도 있는 문제 해결 과정을 담았습니다.',
-            'section-ops': '중단 없는 서비스 운영과 신뢰성을 위한 자동화된 인프라 환경입니다.',
-            'section-vision': '고도화 목효입니다.'
-        };
-
-        const observerOptions = {
-            rootMargin: '-20% 0px -70% 0px',
-            threshold: 0
-        };
-
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id;
-                    if (guideComments[id] && guideBubble.innerText !== guideComments[id]) {
-                        guideBubble.classList.remove('active');
-                        setTimeout(() => {
-                            guideBubble.innerText = guideComments[id];
-                            guideBubble.classList.add('active');
-                        }, 100);
-                    }
-                }
-            });
-        }, observerOptions);
-
-        // 헤더와 모든 섹션을 감시
-        document.querySelectorAll('header, section').forEach(el => {
-            if (el.id) sectionObserver.observe(el);
-        });
-
-        // Initial trigger
-        setTimeout(() => guideBubble.classList.add('active'), 500);
     </script>
 </body>
 </html>
